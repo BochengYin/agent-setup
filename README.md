@@ -29,7 +29,7 @@
 ## 怎么用
 
 ```bash
-git clone git@github.com:BochengYin/agent-setup.git && cd agent-setup
+git clone https://github.com/BochengYin/agent-setup.git && cd agent-setup
 ./setup.sh        # 装 skills（共享目录，两个 CLI 通吃）+ 注册 MCP
 ```
 
