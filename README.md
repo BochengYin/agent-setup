@@ -26,6 +26,22 @@
 | **chrome-devtools** | [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp) 43K★ | 真实浏览器 debug、性能分析（侧重 debug，和 playwright 互补） |
 | **serena** | [oraios/serena](https://github.com/oraios/serena) 25K★ | LSP 语义检索/编辑，大仓库导航 |
 
+## 监控
+
+| 工具 | 来源 | 为什么要它 |
+|---|---|---|
+| **ccusage statusline** | [ccusage/ccusage](https://github.com/ryoppippi/ccusage) 16K★ | statusline 实时显示 context %（50%/80% 变色）和 cache 命中。cache-creation 持续偏高 = 有东西在动你的前缀 |
+
+## Context 健康守则
+
+来自 2026-06 官方文档 + 社区共识，目标：让模型一直待在 smart zone。
+
+1. **~60% 就 handoff 或 /compact**，别等 ~78% 的 auto-compact（质量从 ~120K tokens 开始衰减）
+2. **mid-session 不要增删 MCP server / 切模型 / 切 effort**——这些会把整条历史的缓存砸掉。改文件、改 CLAUDE.md（下个 session 生效）、跑 skill、spawn subagent 都是安全的
+3. **探索类工作丢给 subagent**：只有最终摘要回主线程，主线程 context 不涨
+4. **探索一次，fork 多次**：`/branch` / `--fork-session` 继承父 session 的缓存，多方案对比在缓存上是划算的
+5. 在子任务边界手动 `/compact`，而不是任务中途被动触发
+
 ## 怎么用
 
 ```bash

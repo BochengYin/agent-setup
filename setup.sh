@@ -43,6 +43,21 @@ else
   echo "已追加 4 个 MCP server 到 config.toml"
 fi
 
+echo "════ 5/5 ccusage statusline（context % + cache 命中仪表盘）════"
+python3 - <<'EOF'
+import json, os
+p = os.path.expanduser("~/.claude/settings.json")
+try:
+    d = json.load(open(p))
+except (FileNotFoundError, ValueError):
+    d = {}
+d["statusLine"] = {"type": "command", "command": "npx -y ccusage statusline", "padding": 0}
+json.dump(d, open(p, "w"), indent=2, ensure_ascii=False)
+print(f"statusLine 已写入 {p}")
+EOF
+# Codex 侧没有等价的常驻 statusline 集成：用内置 /status 看 context，
+# 或 `npx @ccusage/codex` 看用量报表
+
 echo ""
 echo "完成。重启 claude / codex 后生效。"
 echo "验证：claude 里跑 /plugin 看 superpowers；npx skills ls 看单品；claude mcp list 看 MCP。"
